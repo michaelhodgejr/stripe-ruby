@@ -57,7 +57,7 @@ module Stripe
     end
 
     def pdf(params = {}, opts = {}, &read_body_chunk_block)
-      config = opts[:client]&.config || Stripe.config
+      config = opts[:client].try(:config) || Stripe.config
       opts = { api_base: config.uploads_base }.merge(opts)
       request_stream(
         method: :get,
@@ -114,7 +114,7 @@ module Stripe
     end
 
     def self.pdf(quote, params = {}, opts = {}, &read_body_chunk_block)
-      config = opts[:client]&.config || Stripe.config
+      config = opts[:client].try(:config) || Stripe.config
       opts = { api_base: config.uploads_base }.merge(opts)
       execute_resource_request_stream(
         :get,

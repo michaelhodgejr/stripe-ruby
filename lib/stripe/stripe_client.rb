@@ -195,7 +195,7 @@ module Stripe
       old_stripe_client = self.class.current_thread_context.active_client
       self.class.current_thread_context.active_client = self
 
-      if self.class.current_thread_context.last_responses&.key?(object_id)
+      if self.class.current_thread_context.last_responses.try(:key?, (object_id))
         raise "calls to StripeClient#request cannot be nested within a thread"
       end
 
@@ -270,7 +270,7 @@ module Stripe
     end
 
     def last_response_has_key?(object_id)
-      self.class.current_thread_context.last_responses&.key?(object_id)
+      self.class.current_thread_context.last_responses.try(:key?, (object_id))
     end
 
     #
